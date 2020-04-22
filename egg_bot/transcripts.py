@@ -14,20 +14,20 @@ def get_files_in_folder(service, page_size, folder_id):
 
     page_token = None
 
-    results = service.files().list( corpora="allDrives", includeItemsFromAllDrives=True, q="'1F177oBASIbkwv2dSm59sAvGn1YFURIGa' in parents", supportsAllDrives=True, pageSize=page_size).execute()
+    results = service.files().list( corpora='allDrives', includeItemsFromAllDrives=True, q='\'1F177oBASIbkwv2dSm59sAvGn1YFURIGa\' in parents', supportsAllDrives=True, pageSize=page_size).execute()
 
     items = results.get('files', [])
-    ids = list(map(lambda e: e["id"], items))
+    ids = list(map(lambda e: e['id'], items))
 
     return ids
 
 def get_transcript(service, id):
 
     # Get the transcript file from the Google Drive API
-    content = service.files().get_media(fileId=id).execute().decode("latin-1")
+    content = service.files().get_media(fileId=id).execute().decode('latin-1')
 
     # Remove timestamps
-    transcript = " ".join(re.findall("(?:[0-9]{2}\:[0-9]{2})\r\n(.*)\r", content))
+    transcript = " ".join(re.findall('(?:[0-9]{2}\:[0-9]{2})\r\n(.*)\r', content))
 
     return transcript
 
@@ -54,10 +54,10 @@ def main():
 
     service = build('drive', 'v3', credentials=creds)
 
-    ids = get_files_in_folder(service, 1, "1VJmDJwNZ7mFwcBBPVsioVXtOBs6LMa9X")
+    ids = get_files_in_folder(service, 1, '1VJmDJwNZ7mFwcBBPVsioVXtOBs6LMa9X')
 
     transcript = get_transcript(service, ids[0])
 
-    f = open("training/transcript.txt", "w")
+    f = open('training/transcript.txt', 'w')
     f.write(transcript)
     f.close()
