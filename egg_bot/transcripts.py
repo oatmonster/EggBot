@@ -19,12 +19,6 @@ def get_files_in_folder(service, page_size, folder_id):
     items = results.get('files', [])
     ids = list(map(lambda e: e["id"], items))
 
-    if not ids:
-        print("No files found.")
-    else:
-        print("Files IDs:")
-        for id in ids:
-            print(id)
     return ids
 
 def get_transcript(service, id):
@@ -35,7 +29,6 @@ def get_transcript(service, id):
     # Remove timestamps
     transcript = " ".join(re.findall("(?:[0-9]{2}\:[0-9]{2})\r\n(.*)\r", content))
 
-    print(transcript)
     return transcript
 
 def main():
@@ -63,5 +56,8 @@ def main():
 
     ids = get_files_in_folder(service, 1, "1VJmDJwNZ7mFwcBBPVsioVXtOBs6LMa9X")
 
-    for id in ids:
-        get_transcript(service, id)
+    transcript = get_transcript(service, ids[0])
+
+    f = open("training/transcript.txt", "w")
+    f.write(transcript)
+    f.close()
