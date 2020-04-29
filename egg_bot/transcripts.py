@@ -54,10 +54,9 @@ def main():
 
     service = build('drive', 'v3', credentials=creds)
 
-    ids = get_files_in_folder(service, 1, '1VJmDJwNZ7mFwcBBPVsioVXtOBs6LMa9X')
-
-    transcript = get_transcript(service, ids[0])
+    ids = get_files_in_folder(service, 10, '1VJmDJwNZ7mFwcBBPVsioVXtOBs6LMa9X')
 
     f = open('training/transcript.txt', 'w')
-    f.write(transcript)
-    f.close()
+    for id in ids:
+        transcript = get_transcript(service, id)
+        f.write(transcript);

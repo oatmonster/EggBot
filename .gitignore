@@ -2,6 +2,8 @@ __pycache__
 
 training
 
+training_checkpoints
+
 credentials.json
 token.pickle
 
